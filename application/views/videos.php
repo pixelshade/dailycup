@@ -83,8 +83,8 @@ if($user_profile != NULL){
 
 	<div class="jumbotron">
 		<h1>Your daily cup of..</h1>
-		<p class="lead">You tell us! Bla bla inglis is easy podla mna to nefunguje v roznych browseroch.. Sex je dobry na plet. Ibazeby, plet bola dobra na sex. </p>
-		<p><a class="btn btn-lg btn-success" href="<?php echo $login_url; ?>" role="button">Login please</a></p>
+		<p class="lead">You tell us! O co sa jedna? Ak vas napadlo nieco o co by ste sa chceli podelit, tak natocte video. </p>
+		<p><a class="btn btn-lg btn-success" href="<?php echo $login_url; ?>" role="button">Login via Fb</a></p>
 
 	</div>
 
