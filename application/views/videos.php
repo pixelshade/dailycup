@@ -31,7 +31,7 @@ if($user_profile != NULL){
 
 	<?php
 
-
+//<iframe width="480" height="360" src="//www.youtube.com/embed/'.$video["filename"].'" frameborder="0" allowfullscreen></iframe>
 
 	if(!empty($videos)){
 		$left = true;

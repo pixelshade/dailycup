@@ -50,6 +50,7 @@ class Video extends Main_Controller {
     }
 
     public function index(){ 
+
         $this->data['error'] = $this->session->flashdata('error');
         $user_profile = $this->user_profile; 
         $this->data['user_profile'] = $user_profile;
@@ -67,34 +68,6 @@ class Video extends Main_Controller {
       $this->load->view('templates/menubar',$this->data);      
       $this->load->view('videos',$this->data);
       $this->load->view('include/footer');
-  }
-
-  public function test(){
-
-
-    
-
-// $this->load->library('email');
-// $config['protocol'] = "smtp";
-// $config['smtp_host'] = "ssl://smtp.gmail.com";
-// $config['smtp_port'] = "465";
-// $config['smtp_user'] = "dailycupof@gmail.com"; 
-// $config['smtp_pass'] = "44253611";
-// $config['charset'] = "utf-8";
-// $config['mailtype'] = "html";
-// $config['newline'] = "\r\n";
-
-// $this->email->initialize($config);
-
-// $this->email->from('dailycupof@gmail.com', 'Pejko');
-// $this->email->to('icewr6hc1908@m.youtube.com');
-// //$this->email->reply_to('my-email@gmail.com', 'Explendid Videos');
-// $this->email->subject('This is an email test');
-// //$this->email->attach('/path/to/photo1.jpg');
-// $this->email->message('It is working. Great!');
-// $this->email->send();
-   // UClH8bVBK8EIqOPU8nz-MEfA
-//    AIzaSyCnWBU_JGJB8q_lxwSMvlX2PQH9n26DFdk
   }
 
 
