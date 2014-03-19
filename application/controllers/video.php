@@ -71,6 +71,9 @@ class Video extends Main_Controller {
 
   public function test(){
 
+
+    
+
 // $this->load->library('email');
 // $config['protocol'] = "smtp";
 // $config['smtp_host'] = "ssl://smtp.gmail.com";
