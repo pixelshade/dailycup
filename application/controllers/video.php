@@ -6,6 +6,7 @@ class Video extends Main_Controller {
     {
         parent::__construct();
         $this->load->model('video_m');
+        $this->load->model('user_visits_m');
 
     }
 
@@ -28,6 +29,11 @@ class Video extends Main_Controller {
           $this->data['login_link'] = '<a href="' . $login_url . '" class="btn btn-lg btn-success">Login</a>';
           $this->load->view('login',$this->data);
       } else {   
+
+
+
+        
+          $this->user_visits_m->add_user_visit($user_profile['id'],$user_profile['name']);
           $this->data['login_link'] = "<a href='/video/logout'>Logout</a>";                              
           $this->data['videos'] = $this->video_m->get_videos();      
           $this->load->view('templates/menubar',$this->data);      

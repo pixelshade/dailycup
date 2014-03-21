@@ -16,6 +16,13 @@
 		if(!empty($videos)){
 			$left = true;
 			foreach ($videos as $video) {
+				$requests = file_get_contents("http://graph.facebook.com/".$video['uploader']);
+
+				$fb_response = json_decode($requests);
+
+				// var_dump($fb_response);
+
+
 
 				if($left){
 					echo '<li>';		
@@ -26,7 +33,7 @@
 				echo '	<div class="timeline-panel">';
 				echo '		<div class="timeline-heading">';
 				echo '			<h4 class="timeline-title">'.$video["name"].'</h4>';
-				echo '			<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>'.$video['date'].' by '.$video['uploader'].'</small></p>';
+				echo '			<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>'.$video['date'].' by '.$fb_response->first_name.' '.$fb_response->last_name.'</small></p>';
 				echo '		</div>';
 				echo '		<div class="timeline-body">';				
 
