@@ -12,13 +12,18 @@
     curl_setopt( $curl, CURLOPT_POSTFIELDS, $postdata );
     curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, 0 );
     curl_setopt( $curl, CURLOPT_RETURNTRANSFER, 1 );
-    curl_setopt( $curl, CURLOPT_SSL_VERIFYHOST, 1 );
+    curl_setopt( $curl, CURLOPT_SSL_VERIFYHOST, 2 );
     $response = curl_exec( $curl );
     curl_close( $curl );
 
     list( $auth, $youtubeuser ) = explode( "\n", $response );
     list( $authlabel, $authvalue ) = array_map( "trim", explode( "=", $auth ) );
-    list( $youtubeuserlabel, $youtubeuservalue ) = array_map( "trim", explode( "=", $youtubeuser ) );
+    $parts = explode( "=", $youtubeuser );
+    // var_dump($parts);
+    if($parts[0] != "")
+    list( $youtubeuserlabel, $youtubeuservalue ) =  array_map( "trim", $parts );
+     // var_dump( $youtubeuserlabel);
+     // var_dump( $youtubeuservalue );
 
     $youtube_video_title = $video_title; // This is the uploading video title.
     $youtube_video_description = $video_description; // This is the uploading video description.   
@@ -60,28 +65,26 @@
         Shows
         Trailers
      */  
-    
-    $data = '<?xml version="1.0"?>
-                <entry xmlns="http://www.w3.org/2005/Atom"
-                  xmlns:media="http://search.yahoo.com/mrss/"
-                  xmlns:yt="http://gdata.youtube.com/schemas/2007">
-                  <yt:accessControl action="list" permission="denied"/>
-                  <media:group>
-                    <media:title type="plain">' . stripslashes( $youtube_video_title ) . '</media:title>
-                    <media:description type="plain">' . stripslashes( $youtube_video_description ) . '</media:description>
-                    <media:category
-                      scheme="http://gdata.youtube.com/schemas/2007/categories.cat">'.$youtube_video_category.'</media:category>
-                    <media:keywords>'.$youtube_video_keywords.'</media:keywords>                    
-                    
 
-                  </media:group>
-                </entry>';
+        $data = '<?xml version="1.0"?>
+        <entry xmlns="http://www.w3.org/2005/Atom"
+        xmlns:media="http://search.yahoo.com/mrss/"
+        xmlns:yt="http://gdata.youtube.com/schemas/2007">
+        <yt:accessControl action="list" permission="denied"/>
+        <media:group>
+        <media:title type="plain">' . stripslashes( $youtube_video_title ) . '</media:title>
+        <media:description type="plain">' . stripslashes( $youtube_video_description ) . '</media:description>
+        <media:category
+        scheme="http://gdata.youtube.com/schemas/2007/categories.cat">'.$youtube_video_category.'</media:category>
+        <media:keywords>'.$youtube_video_keywords.'</media:keywords> 
+    </media:group>
+</entry>';
 
-    $headers = array( "Authorization: GoogleLogin auth=".$authvalue,
-                 "GData-Version: 2",
-                 "X-GData-Key: key=".$key,
-                 "Content-length: ".strlen( $data ),
-                 "Content-Type: application/atom+xml; charset=UTF-8" );
+$headers = array( "Authorization: GoogleLogin auth=".$authvalue,
+   "GData-Version: 2",
+   "X-GData-Key: key=".$key,
+   "Content-length: ".strlen( $data ),
+   "Content-Type: application/atom+xml; charset=UTF-8" );
 
 $curl = curl_init( "http://gdata.youtube.com/action/GetUploadToken");
 curl_setopt( $curl, CURLOPT_USERAGENT, $_SERVER["HTTP_USER_AGENT"] );
@@ -97,6 +100,6 @@ curl_setopt( $curl, CURLOPT_FOLLOWLOCATION, 1 );
 curl_setopt( $curl, CURLOPT_HEADER, 0 );
 
 $response = simplexml_load_string( curl_exec( $curl ) );
-print_r($response);
+// print_r($response);
 curl_close( $curl );
-?>
+

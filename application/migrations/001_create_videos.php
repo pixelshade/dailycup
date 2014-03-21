@@ -13,10 +13,13 @@ class Migration_Create_videos extends CI_Migration {
 				'unsigned' => TRUE,
 				'auto_increment' => TRUE
 			),
-			'filename' => array(
+			'video_id' => array(
 				'type' => 'TEXT',				
 			),
 			'name' => array(
+				'type' => 'TEXT',				
+			),
+			'description' => array(
 				'type' => 'TEXT',				
 			),
 			'uploader' => array(

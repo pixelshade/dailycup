@@ -2,6 +2,23 @@
  * All your custom CSS should go into this file
  */
 
+.vid {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px; height: 0; overflow: hidden;
+}
+ 
+.vid iframe,
+.vid object,
+.vid embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
 body {
    padding-top: 15px;
 }
@@ -18,7 +35,7 @@ body {
 }
 
 #upload {
-	display : none;
+	/*display : none;*/
 }
 
 

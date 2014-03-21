@@ -15,8 +15,14 @@
 
 
 <script>
+$(function(){
+	if(<?php echo $hide_upload; ?>){
+		$('#upload').hide();
+	}
+});
+
 $('#upload_btn').click(function(){
-	
+
 	$( this ).slideUp();
 	$('#upload').show('slow');
 });
