@@ -1,20 +1,39 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Video extends Main_Controller {
-
+    private $_VIDEOS_ON_PAGE = 4;
+    private $url = "http://dailycup.skeletopedia.sk";
     function __construct()
     {
         parent::__construct();
         $this->load->model('video_m');
         $this->load->model('user_visits_m');
+        $this->load->library('pagination');
 
+        $config['base_url'] = $this->url."/video/index/";
+        $config['uri_segment'] = 3;
+        $config['total_rows'] = $this->video_m->get_total_rows();
+        $config['per_page'] = $this->_VIDEOS_ON_PAGE; 
+        $config['use_page_numbers'] = TRUE;
+
+        $config['full_tag_open'] = '<ul class="pagination pull-right">';
+        $config['full_tag_close'] = '</ul>';
+        $config['next_link'] = '&raquo;';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['prev_link'] = '&laquo;';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';  
+        $config['cur_tag_open'] = '<li class="active"><a>';
+        $config['cur_tag_close'] = '</a></li>';
+        $this->pagination->initialize($config); 
     }
 
-    public function index(){ 
+    public function index($p = 1){ 
         $this->data['hide_upload'] = 'false';
      // Specifies the url that youtube will return to. The data it returns are as get variables         
-        $this->data['nexturl'] = "http://dailycup.skeletopedia.sk";
-
+        $this->data['nexturl'] = $this->url;
+        
     // These are the get variables youtube returns once the video has been uploaded.
         if(isset($_GET['id'])) {$unique_id = $_GET['id'];} else { $unique_id = '';}
         if(isset($_GET['status'])) {$status = $_GET['status'];} else {$status = '';}
@@ -32,11 +51,12 @@ class Video extends Main_Controller {
 
 
 
-        
           $this->user_visits_m->add_user_visit($user_profile['id'],$user_profile['name']);
-          $this->data['login_link'] = "<a href='/video/logout'>Logout</a>";                              
-          $this->data['videos'] = $this->video_m->get_videos();      
-          $this->load->view('templates/menubar',$this->data);      
+          $this->data['login_link'] = "<a href='/video/logout'>Logout</a>";                            
+          
+          $this->data['videos'] = $this->video_m->get_videos($this->_VIDEOS_ON_PAGE, $this->_VIDEOS_ON_PAGE*($p-1));      
+          $this->data['pagination'] = $this->pagination->create_links();
+          $this->load->view('templates/menubar',$this->data);  
 
 
           if( isset( $_POST['video_title'] ) && isset( $_POST['video_description'] ) && $unique_id == '') {
@@ -82,7 +102,7 @@ public function login(){
 
   if ($user) {
     try {
-        $data['user_profile'] = $this->fb->sdk->api('/me');
+        $data['user_profile'] = $this->fb->sdk->api('/me');        
     } catch (FacebookApiException $e) {
         $user = null;
     }
@@ -102,7 +122,7 @@ if ($user) {
                 'redirect_uri' => site_url(),
                 'scope' => array("email","user_groups") // permissions here
                 ));
-        }       
+        }               
 
     }
 
@@ -115,24 +135,24 @@ if ($user) {
     }
 
     public function delete_video($id){        
-         $video = $this->video_m->get_video($id);
-        if(!empty($video)){
-            if($this->user_profile['id'] == $video->uploader){
-                if ($this->video_m->delete_video($id))
-                {
-                    $status = 'success';
-                    $this->data['error'] = 'File successfully deleted';
-                }
-                else
-                {
-                    $status = 'error';
-                    $this->data['error'] = 'Something went wrong when deleteing the file, please try again';
-                }
-                $this->session->set_flashdata('error',$this->data['error']); 
+       $video = $this->video_m->get_video($id);
+       if(!empty($video)){
+        if($this->user_profile['id'] == $video->uploader){
+            if ($this->video_m->delete_video($id))
+            {
+                $status = 'success';
+                $this->data['error'] = 'File successfully deleted';
             }
+            else
+            {
+                $status = 'error';
+                $this->data['error'] = 'Something went wrong when deleteing the file, please try again';
+            }
+            $this->session->set_flashdata('error',$this->data['error']); 
         }
-        redirect('video/index/');
     }
+    redirect('video/index/');
+}
 
     // public function upload_file()
     // {

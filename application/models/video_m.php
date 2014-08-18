@@ -1,16 +1,21 @@
 <?php
 class Video_m extends CI_Model{
 	public $upload_path = "app_content/";
-	
+	private $table_name = "videos";
+
 	function __construct()
 	{
 		$this->load->database();
 	}
 
-	public function get_videos()
-	{
-		$query = $this->db->order_by('date', 'desc')->get('videos');
+	public function get_videos($amount = NULL, $offset = NULL)
+	{	
+		$query = $this->db->order_by('date', 'desc')->get($this->table_name, $amount, $offset);	
 		return $query->result_array();
+	}
+
+	public function get_total_rows(){
+		return $this->db->count_all($this->table_name);
 	}
 
 
@@ -24,7 +29,7 @@ class Video_m extends CI_Model{
 			'date' => date('Y-m-d H:i:s'),
 			);
 
-		$this->db->insert('videos', $data);
+		$this->db->insert($this->table_name, $data);
 		return $this->db->insert_id();
 	}
 
@@ -32,7 +37,7 @@ class Video_m extends CI_Model{
 	public function delete_video($id){
 		$file = $this->get_video($id);  
 		if(count($file) != 0) {     
-			return ($this->db->where('id', $id)->delete('videos'));			
+			return ($this->db->where('id', $id)->delete($this->table_name));			
 		}		
 		return FALSE;
 	}
@@ -71,13 +76,13 @@ class Video_m extends CI_Model{
 	public function get_video($file_id = NULL)
 	{
 		return $this->db->select()
-		->from('videos')
+		->from($this->table_name)
 		->where('id', $file_id)
 		->get()
 		->row();
 	}
 
 	public function get_all(){ 
-		return $this->db->get('videos')->result_array(); 
+		return $this->db->get($this->table_name)->result_array(); 
 	}
 }

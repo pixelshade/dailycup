@@ -6,12 +6,11 @@ class User_visits_m extends CI_Model{
 		$this->load->database();
 	}
 
-	public function get_user_visits()
-	{
-		$query = $this->db->order_by('visited', 'desc')->get('user_visits');
+	public function get_user_visits($amount = NULL, $offset = NULL)
+	{	
+		$query = $this->db->order_by('visited', 'desc')->get('user_visits', $amount, $offset);		
 		return $query->result_array();
 	}
-
 
 	public function add_user_visit($user_id, $name)
 	{

@@ -22,7 +22,7 @@ class User_visit extends Main_Controller {
           $this->load->view('login',$this->data);
       } else {   
           $this->data['login_link'] = "<a href='/video/logout'>Logout</a>";                              
-          $this->data['user_visits'] = $this->user_visits_m->get_user_visits();      
+          $this->data['user_visits'] = $this->user_visits_m->get_user_visits(10);      
           $this->load->view('templates/menubar',$this->data);      
 
 
