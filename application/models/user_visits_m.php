@@ -25,12 +25,17 @@ class User_visits_m extends CI_Model{
 	}
 
 
-	public function delete_user_visit($id){
-		$file = $this->get_user_visit($id);  
-		if(count($file) != 0) {     
-			return ($this->db->where('id', $id)->delete('user_visits'));			
+	public function delete_user_visits($id){
+		$entries = $this->get_user_visit($id);  
+		if(count($entries) != 0) {     
+			return ($this->db->where('user_id', $id)->delete('user_visits'));			
 		}		
 		return FALSE;
+	}
+
+
+	public function delete_visit($visit_id){
+		return ($this->db->where('id', $visit_id)->delete('user_visits'));			
 	}
 	// public function insert_file($filename, $name, $uploader)
 	// {

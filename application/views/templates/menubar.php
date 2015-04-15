@@ -1,7 +1,7 @@
 <div class="subnav" style="margin-bottom: 10px;">
    <ul class="nav nav-pills">
       <li <? if(is_active()): ?>class="active"<? endif; ?>><a href="<?= site_url() ?>"><? echo $user_profile['name'] ?></a></li>
-      <li><a href="./user_visit/">visits</a></li>
+      <li><a href="/user_visit/">navstevy</a></li>
      <!--  <li class="dropdown">
          <a class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
          <ul class="dropdown-menu">
@@ -17,7 +17,9 @@
       </ul>
    </ul>
 </div>
-
+<!-- user visits -->
+<!-- delete_user_visits($id) -->
+<!-- delete_visit($visit_id) -->
 
 <!-- 
       <div class="header">
